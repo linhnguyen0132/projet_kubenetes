@@ -1,0 +1,17 @@
+FROM ubuntu:16.04
+
+#Copier les packages du projet
+WORKDIR /mydir
+COPY . .
+
+#Installation des applications necessaires
+RUN apt-get update && apt-get install -y dialog apt-utils && apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash
+RUN apt-get install -y nodejs
+
+#Build l'application
+RUN npm install
+RUN npm audit fix
+
+#Executer l'application
+CMD ["npm", "start"]
